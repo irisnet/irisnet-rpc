@@ -145,19 +145,18 @@ struct PostTxResponse {
  * @param tx, tx which has been signed
  */
 struct SimulateTxRequest {
-	1: list<binary> tx
+	1: binary tx
 }
 
-
 struct SimulateResult {
-    1: Coin coin
+    1: map<string,Coin> withdraw
 	2: i64  gas
 }
 /** SimulateTxRequest request
  * @param tx, tx which has been signed
  */
 struct SimulateTxResponse {
-	1: list<SimulateResult> results
+	1: SimulateResult results
 }
 
 /** balance request
