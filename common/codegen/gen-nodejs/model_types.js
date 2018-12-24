@@ -1294,20 +1294,20 @@ SimulateTxRequest.prototype.write = function(output) {
   return;
 };
 
-var SimulateResult = module.exports.SimulateResult = function(args) {
-  this.withdraw = null;
+var SimulateTxResponse = module.exports.SimulateTxResponse = function(args) {
+  this.reward = null;
   this.gas = null;
   if (args) {
-    if (args.withdraw !== undefined && args.withdraw !== null) {
-      this.withdraw = Thrift.copyMap(args.withdraw, [ttypes.Coin]);
+    if (args.reward !== undefined && args.reward !== null) {
+      this.reward = new ttypes.Coin(args.reward);
     }
     if (args.gas !== undefined && args.gas !== null) {
       this.gas = args.gas;
     }
   }
 };
-SimulateResult.prototype = {};
-SimulateResult.prototype.read = function(input) {
+SimulateTxResponse.prototype = {};
+SimulateTxResponse.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -1321,26 +1321,9 @@ SimulateResult.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.MAP) {
-        var _size8 = 0;
-        var _rtmp312;
-        this.withdraw = {};
-        var _ktype9 = 0;
-        var _vtype10 = 0;
-        _rtmp312 = input.readMapBegin();
-        _ktype9 = _rtmp312.ktype;
-        _vtype10 = _rtmp312.vtype;
-        _size8 = _rtmp312.size;
-        for (var _i13 = 0; _i13 < _size8; ++_i13)
-        {
-          var key14 = null;
-          var val15 = null;
-          key14 = input.readString();
-          val15 = new ttypes.Coin();
-          val15.read(input);
-          this.withdraw[key14] = val15;
-        }
-        input.readMapEnd();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.reward = new ttypes.Coin();
+        this.reward.read(input);
       } else {
         input.skip(ftype);
       }
@@ -1361,80 +1344,16 @@ SimulateResult.prototype.read = function(input) {
   return;
 };
 
-SimulateResult.prototype.write = function(output) {
-  output.writeStructBegin('SimulateResult');
-  if (this.withdraw !== null && this.withdraw !== undefined) {
-    output.writeFieldBegin('withdraw', Thrift.Type.MAP, 1);
-    output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRUCT, Thrift.objectLength(this.withdraw));
-    for (var kiter16 in this.withdraw)
-    {
-      if (this.withdraw.hasOwnProperty(kiter16))
-      {
-        var viter17 = this.withdraw[kiter16];
-        output.writeString(kiter16);
-        viter17.write(output);
-      }
-    }
-    output.writeMapEnd();
+SimulateTxResponse.prototype.write = function(output) {
+  output.writeStructBegin('SimulateTxResponse');
+  if (this.reward !== null && this.reward !== undefined) {
+    output.writeFieldBegin('reward', Thrift.Type.STRUCT, 1);
+    this.reward.write(output);
     output.writeFieldEnd();
   }
   if (this.gas !== null && this.gas !== undefined) {
     output.writeFieldBegin('gas', Thrift.Type.I64, 2);
     output.writeI64(this.gas);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-var SimulateTxResponse = module.exports.SimulateTxResponse = function(args) {
-  this.results = null;
-  if (args) {
-    if (args.results !== undefined && args.results !== null) {
-      this.results = new ttypes.SimulateResult(args.results);
-    }
-  }
-};
-SimulateTxResponse.prototype = {};
-SimulateTxResponse.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.results = new ttypes.SimulateResult();
-        this.results.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-SimulateTxResponse.prototype.write = function(output) {
-  output.writeStructBegin('SimulateTxResponse');
-  if (this.results !== null && this.results !== undefined) {
-    output.writeFieldBegin('results', Thrift.Type.STRUCT, 1);
-    this.results.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -1519,19 +1438,19 @@ BalanceResponse.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.LIST) {
-        var _size18 = 0;
-        var _rtmp322;
+        var _size8 = 0;
+        var _rtmp312;
         this.coins = [];
-        var _etype21 = 0;
-        _rtmp322 = input.readListBegin();
-        _etype21 = _rtmp322.etype;
-        _size18 = _rtmp322.size;
-        for (var _i23 = 0; _i23 < _size18; ++_i23)
+        var _etype11 = 0;
+        _rtmp312 = input.readListBegin();
+        _etype11 = _rtmp312.etype;
+        _size8 = _rtmp312.size;
+        for (var _i13 = 0; _i13 < _size8; ++_i13)
         {
-          var elem24 = null;
-          elem24 = new ttypes.Coin();
-          elem24.read(input);
-          this.coins.push(elem24);
+          var elem14 = null;
+          elem14 = new ttypes.Coin();
+          elem14.read(input);
+          this.coins.push(elem14);
         }
         input.readListEnd();
       } else {
@@ -1555,12 +1474,12 @@ BalanceResponse.prototype.write = function(output) {
   if (this.coins !== null && this.coins !== undefined) {
     output.writeFieldBegin('coins', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.coins.length);
-    for (var iter25 in this.coins)
+    for (var iter15 in this.coins)
     {
-      if (this.coins.hasOwnProperty(iter25))
+      if (this.coins.hasOwnProperty(iter15))
       {
-        iter25 = this.coins[iter25];
-        iter25.write(output);
+        iter15 = this.coins[iter15];
+        iter15.write(output);
       }
     }
     output.writeListEnd();
