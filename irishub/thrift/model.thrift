@@ -1,14 +1,5 @@
 namespace go model
 
-/** coin struct
- * @param amount, token amount
- * @param denom, name of token
- */
-struct Coin {
-	1: double amount,
-	2: string denom
-}
-
 struct DelegatorUnbondingDelegation {
     1: double tokens,
     2: string minTime

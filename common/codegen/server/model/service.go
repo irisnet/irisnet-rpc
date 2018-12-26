@@ -45,7 +45,7 @@ type BlockChainService interface {
 	GetTxDetail(ctx context.Context, req *TxDetailRequest) (r *Tx, err error)
 	// Parameters:
 	//  - Req
-	GetRewardList(ctx context.Context, req *RewardListRequest) (r *RewardListResponse, err error)
+	GetRewardInfo(ctx context.Context, req *RewardInfoRequest) (r *RewardInfoResponse, err error)
 }
 
 type BlockChainServiceClient struct {
@@ -210,11 +210,11 @@ func (p *BlockChainServiceClient) GetTxDetail(ctx context.Context, req *TxDetail
 
 // Parameters:
 //  - Req
-func (p *BlockChainServiceClient) GetRewardList(ctx context.Context, req *RewardListRequest) (r *RewardListResponse, err error) {
-	var _args16 BlockChainServiceGetRewardListArgs
+func (p *BlockChainServiceClient) GetRewardInfo(ctx context.Context, req *RewardInfoRequest) (r *RewardInfoResponse, err error) {
+	var _args16 BlockChainServiceGetRewardInfoArgs
 	_args16.Req = req
-	var _result17 BlockChainServiceGetRewardListResult
-	if err = p.c.Call(ctx, "GetRewardList", &_args16, &_result17); err != nil {
+	var _result17 BlockChainServiceGetRewardInfoResult
+	if err = p.c.Call(ctx, "GetRewardInfo", &_args16, &_result17); err != nil {
 		return
 	}
 	switch {
@@ -254,7 +254,7 @@ func NewBlockChainServiceProcessor(handler BlockChainService) *BlockChainService
 	self18.processorMap["GetBalance"] = &blockChainServiceProcessorGetBalance{handler: handler}
 	self18.processorMap["GetTxList"] = &blockChainServiceProcessorGetTxList{handler: handler}
 	self18.processorMap["GetTxDetail"] = &blockChainServiceProcessorGetTxDetail{handler: handler}
-	self18.processorMap["GetRewardList"] = &blockChainServiceProcessorGetRewardList{handler: handler}
+	self18.processorMap["GetRewardInfo"] = &blockChainServiceProcessorGetRewardInfo{handler: handler}
 	return self18
 }
 
@@ -701,16 +701,16 @@ func (p *blockChainServiceProcessorGetTxDetail) Process(ctx context.Context, seq
 	return true, err
 }
 
-type blockChainServiceProcessorGetRewardList struct {
+type blockChainServiceProcessorGetRewardInfo struct {
 	handler BlockChainService
 }
 
-func (p *blockChainServiceProcessorGetRewardList) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-	args := BlockChainServiceGetRewardListArgs{}
+func (p *blockChainServiceProcessorGetRewardInfo) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := BlockChainServiceGetRewardInfoArgs{}
 	if err = args.Read(iprot); err != nil {
 		iprot.ReadMessageEnd()
 		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-		oprot.WriteMessageBegin("GetRewardList", thrift.EXCEPTION, seqId)
+		oprot.WriteMessageBegin("GetRewardInfo", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush()
@@ -718,16 +718,16 @@ func (p *blockChainServiceProcessorGetRewardList) Process(ctx context.Context, s
 	}
 
 	iprot.ReadMessageEnd()
-	result := BlockChainServiceGetRewardListResult{}
-	var retval *RewardListResponse
+	result := BlockChainServiceGetRewardInfoResult{}
+	var retval *RewardInfoResponse
 	var err2 error
-	if retval, err2 = p.handler.GetRewardList(ctx, args.Req); err2 != nil {
+	if retval, err2 = p.handler.GetRewardInfo(ctx, args.Req); err2 != nil {
 		switch v := err2.(type) {
 		case *Exception:
 			result.E = v
 		default:
-			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetRewardList: "+err2.Error())
-			oprot.WriteMessageBegin("GetRewardList", thrift.EXCEPTION, seqId)
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetRewardInfo: "+err2.Error())
+			oprot.WriteMessageBegin("GetRewardInfo", thrift.EXCEPTION, seqId)
 			x.Write(oprot)
 			oprot.WriteMessageEnd()
 			oprot.Flush()
@@ -736,7 +736,7 @@ func (p *blockChainServiceProcessorGetRewardList) Process(ctx context.Context, s
 	} else {
 		result.Success = retval
 	}
-	if err2 = oprot.WriteMessageBegin("GetRewardList", thrift.REPLY, seqId); err2 != nil {
+	if err2 = oprot.WriteMessageBegin("GetRewardInfo", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -2911,27 +2911,27 @@ func (p *BlockChainServiceGetTxDetailResult) String() string {
 
 // Attributes:
 //  - Req
-type BlockChainServiceGetRewardListArgs struct {
-	Req *RewardListRequest `thrift:"req,1" db:"req" json:"req"`
+type BlockChainServiceGetRewardInfoArgs struct {
+	Req *RewardInfoRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
-func NewBlockChainServiceGetRewardListArgs() *BlockChainServiceGetRewardListArgs {
-	return &BlockChainServiceGetRewardListArgs{}
+func NewBlockChainServiceGetRewardInfoArgs() *BlockChainServiceGetRewardInfoArgs {
+	return &BlockChainServiceGetRewardInfoArgs{}
 }
 
-var BlockChainServiceGetRewardListArgs_Req_DEFAULT *RewardListRequest
+var BlockChainServiceGetRewardInfoArgs_Req_DEFAULT *RewardInfoRequest
 
-func (p *BlockChainServiceGetRewardListArgs) GetReq() *RewardListRequest {
+func (p *BlockChainServiceGetRewardInfoArgs) GetReq() *RewardInfoRequest {
 	if !p.IsSetReq() {
-		return BlockChainServiceGetRewardListArgs_Req_DEFAULT
+		return BlockChainServiceGetRewardInfoArgs_Req_DEFAULT
 	}
 	return p.Req
 }
-func (p *BlockChainServiceGetRewardListArgs) IsSetReq() bool {
+func (p *BlockChainServiceGetRewardInfoArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-func (p *BlockChainServiceGetRewardListArgs) Read(iprot thrift.TProtocol) error {
+func (p *BlockChainServiceGetRewardInfoArgs) Read(iprot thrift.TProtocol) error {
 	if _, err := iprot.ReadStructBegin(); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
 	}
@@ -2970,16 +2970,16 @@ func (p *BlockChainServiceGetRewardListArgs) Read(iprot thrift.TProtocol) error 
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListArgs) ReadField1(iprot thrift.TProtocol) error {
-	p.Req = &RewardListRequest{}
+func (p *BlockChainServiceGetRewardInfoArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &RewardInfoRequest{}
 	if err := p.Req.Read(iprot); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
 	}
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListArgs) Write(oprot thrift.TProtocol) error {
-	if err := oprot.WriteStructBegin("GetRewardList_args"); err != nil {
+func (p *BlockChainServiceGetRewardInfoArgs) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("GetRewardInfo_args"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
 	if p != nil {
@@ -2996,7 +2996,7 @@ func (p *BlockChainServiceGetRewardListArgs) Write(oprot thrift.TProtocol) error
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListArgs) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *BlockChainServiceGetRewardInfoArgs) writeField1(oprot thrift.TProtocol) (err error) {
 	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
 	}
@@ -3009,51 +3009,51 @@ func (p *BlockChainServiceGetRewardListArgs) writeField1(oprot thrift.TProtocol)
 	return err
 }
 
-func (p *BlockChainServiceGetRewardListArgs) String() string {
+func (p *BlockChainServiceGetRewardInfoArgs) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("BlockChainServiceGetRewardListArgs(%+v)", *p)
+	return fmt.Sprintf("BlockChainServiceGetRewardInfoArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
-type BlockChainServiceGetRewardListResult struct {
-	Success *RewardListResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
+type BlockChainServiceGetRewardInfoResult struct {
+	Success *RewardInfoResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
 	E       *Exception          `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
-func NewBlockChainServiceGetRewardListResult() *BlockChainServiceGetRewardListResult {
-	return &BlockChainServiceGetRewardListResult{}
+func NewBlockChainServiceGetRewardInfoResult() *BlockChainServiceGetRewardInfoResult {
+	return &BlockChainServiceGetRewardInfoResult{}
 }
 
-var BlockChainServiceGetRewardListResult_Success_DEFAULT *RewardListResponse
+var BlockChainServiceGetRewardInfoResult_Success_DEFAULT *RewardInfoResponse
 
-func (p *BlockChainServiceGetRewardListResult) GetSuccess() *RewardListResponse {
+func (p *BlockChainServiceGetRewardInfoResult) GetSuccess() *RewardInfoResponse {
 	if !p.IsSetSuccess() {
-		return BlockChainServiceGetRewardListResult_Success_DEFAULT
+		return BlockChainServiceGetRewardInfoResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-var BlockChainServiceGetRewardListResult_E_DEFAULT *Exception
+var BlockChainServiceGetRewardInfoResult_E_DEFAULT *Exception
 
-func (p *BlockChainServiceGetRewardListResult) GetE() *Exception {
+func (p *BlockChainServiceGetRewardInfoResult) GetE() *Exception {
 	if !p.IsSetE() {
-		return BlockChainServiceGetRewardListResult_E_DEFAULT
+		return BlockChainServiceGetRewardInfoResult_E_DEFAULT
 	}
 	return p.E
 }
-func (p *BlockChainServiceGetRewardListResult) IsSetSuccess() bool {
+func (p *BlockChainServiceGetRewardInfoResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func (p *BlockChainServiceGetRewardListResult) IsSetE() bool {
+func (p *BlockChainServiceGetRewardInfoResult) IsSetE() bool {
 	return p.E != nil
 }
 
-func (p *BlockChainServiceGetRewardListResult) Read(iprot thrift.TProtocol) error {
+func (p *BlockChainServiceGetRewardInfoResult) Read(iprot thrift.TProtocol) error {
 	if _, err := iprot.ReadStructBegin(); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
 	}
@@ -3102,15 +3102,15 @@ func (p *BlockChainServiceGetRewardListResult) Read(iprot thrift.TProtocol) erro
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListResult) ReadField0(iprot thrift.TProtocol) error {
-	p.Success = &RewardListResponse{}
+func (p *BlockChainServiceGetRewardInfoResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &RewardInfoResponse{}
 	if err := p.Success.Read(iprot); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
 	}
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListResult) ReadField1(iprot thrift.TProtocol) error {
+func (p *BlockChainServiceGetRewardInfoResult) ReadField1(iprot thrift.TProtocol) error {
 	p.E = &Exception{}
 	if err := p.E.Read(iprot); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
@@ -3118,8 +3118,8 @@ func (p *BlockChainServiceGetRewardListResult) ReadField1(iprot thrift.TProtocol
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListResult) Write(oprot thrift.TProtocol) error {
-	if err := oprot.WriteStructBegin("GetRewardList_result"); err != nil {
+func (p *BlockChainServiceGetRewardInfoResult) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("GetRewardInfo_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
 	if p != nil {
@@ -3139,7 +3139,7 @@ func (p *BlockChainServiceGetRewardListResult) Write(oprot thrift.TProtocol) err
 	return nil
 }
 
-func (p *BlockChainServiceGetRewardListResult) writeField0(oprot thrift.TProtocol) (err error) {
+func (p *BlockChainServiceGetRewardInfoResult) writeField0(oprot thrift.TProtocol) (err error) {
 	if p.IsSetSuccess() {
 		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
 			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
@@ -3154,7 +3154,7 @@ func (p *BlockChainServiceGetRewardListResult) writeField0(oprot thrift.TProtoco
 	return err
 }
 
-func (p *BlockChainServiceGetRewardListResult) writeField1(oprot thrift.TProtocol) (err error) {
+func (p *BlockChainServiceGetRewardInfoResult) writeField1(oprot thrift.TProtocol) (err error) {
 	if p.IsSetE() {
 		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
 			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
@@ -3169,9 +3169,9 @@ func (p *BlockChainServiceGetRewardListResult) writeField1(oprot thrift.TProtoco
 	return err
 }
 
-func (p *BlockChainServiceGetRewardListResult) String() string {
+func (p *BlockChainServiceGetRewardInfoResult) String() string {
 	if p == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("BlockChainServiceGetRewardListResult(%+v)", *p)
+	return fmt.Sprintf("BlockChainServiceGetRewardInfoResult(%+v)", *p)
 }

@@ -1864,148 +1864,6 @@ TxDetailRequest.prototype.write = function(output) {
   return;
 };
 
-var RewardListRequest = module.exports.RewardListRequest = function(args) {
-  this.delAddr = null;
-  this.valAddr = null;
-  if (args) {
-    if (args.delAddr !== undefined && args.delAddr !== null) {
-      this.delAddr = args.delAddr;
-    }
-    if (args.valAddr !== undefined && args.valAddr !== null) {
-      this.valAddr = args.valAddr;
-    }
-  }
-};
-RewardListRequest.prototype = {};
-RewardListRequest.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.delAddr = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.valAddr = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-RewardListRequest.prototype.write = function(output) {
-  output.writeStructBegin('RewardListRequest');
-  if (this.delAddr !== null && this.delAddr !== undefined) {
-    output.writeFieldBegin('delAddr', Thrift.Type.STRING, 1);
-    output.writeString(this.delAddr);
-    output.writeFieldEnd();
-  }
-  if (this.valAddr !== null && this.valAddr !== undefined) {
-    output.writeFieldBegin('valAddr', Thrift.Type.STRING, 2);
-    output.writeString(this.valAddr);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-var RewardListResponse = module.exports.RewardListResponse = function(args) {
-  this.rewards = null;
-  if (args) {
-    if (args.rewards !== undefined && args.rewards !== null) {
-      this.rewards = Thrift.copyList(args.rewards, [null]);
-    }
-  }
-};
-RewardListResponse.prototype = {};
-RewardListResponse.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.LIST) {
-        var _size24 = 0;
-        var _rtmp328;
-        this.rewards = [];
-        var _etype27 = 0;
-        _rtmp328 = input.readListBegin();
-        _etype27 = _rtmp328.etype;
-        _size24 = _rtmp328.size;
-        for (var _i29 = 0; _i29 < _size24; ++_i29)
-        {
-          var elem30 = null;
-          elem30 = new ttypes.Reward();
-          elem30.read(input);
-          this.rewards.push(elem30);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-RewardListResponse.prototype.write = function(output) {
-  output.writeStructBegin('RewardListResponse');
-  if (this.rewards !== null && this.rewards !== undefined) {
-    output.writeFieldBegin('rewards', Thrift.Type.LIST, 1);
-    output.writeListBegin(Thrift.Type.STRUCT, this.rewards.length);
-    for (var iter31 in this.rewards)
-    {
-      if (this.rewards.hasOwnProperty(iter31))
-      {
-        iter31 = this.rewards[iter31];
-        iter31.write(output);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
 var Reward = module.exports.Reward = function(args) {
   this.delAddr = null;
   this.amount = null;
@@ -2077,19 +1935,19 @@ Reward.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.LIST) {
-        var _size32 = 0;
-        var _rtmp336;
+        var _size24 = 0;
+        var _rtmp328;
         this.amount = [];
-        var _etype35 = 0;
-        _rtmp336 = input.readListBegin();
-        _etype35 = _rtmp336.etype;
-        _size32 = _rtmp336.size;
-        for (var _i37 = 0; _i37 < _size32; ++_i37)
+        var _etype27 = 0;
+        _rtmp328 = input.readListBegin();
+        _etype27 = _rtmp328.etype;
+        _size24 = _rtmp328.size;
+        for (var _i29 = 0; _i29 < _size24; ++_i29)
         {
-          var elem38 = null;
-          elem38 = new ttypes.Coin();
-          elem38.read(input);
-          this.amount.push(elem38);
+          var elem30 = null;
+          elem30 = new ttypes.Coin();
+          elem30.read(input);
+          this.amount.push(elem30);
         }
         input.readListEnd();
       } else {
@@ -2156,19 +2014,19 @@ Reward.prototype.read = function(input) {
       break;
       case 11:
       if (ftype == Thrift.Type.LIST) {
-        var _size39 = 0;
-        var _rtmp343;
+        var _size31 = 0;
+        var _rtmp335;
         this.details = [];
-        var _etype42 = 0;
-        _rtmp343 = input.readListBegin();
-        _etype42 = _rtmp343.etype;
-        _size39 = _rtmp343.size;
-        for (var _i44 = 0; _i44 < _size39; ++_i44)
+        var _etype34 = 0;
+        _rtmp335 = input.readListBegin();
+        _etype34 = _rtmp335.etype;
+        _size31 = _rtmp335.size;
+        for (var _i36 = 0; _i36 < _size31; ++_i36)
         {
-          var elem45 = null;
-          elem45 = new ttypes.RewardDetail();
-          elem45.read(input);
-          this.details.push(elem45);
+          var elem37 = null;
+          elem37 = new ttypes.RewardDetail();
+          elem37.read(input);
+          this.details.push(elem37);
         }
         input.readListEnd();
       } else {
@@ -2194,12 +2052,12 @@ Reward.prototype.write = function(output) {
   if (this.amount !== null && this.amount !== undefined) {
     output.writeFieldBegin('amount', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.amount.length);
-    for (var iter46 in this.amount)
+    for (var iter38 in this.amount)
     {
-      if (this.amount.hasOwnProperty(iter46))
+      if (this.amount.hasOwnProperty(iter38))
       {
-        iter46 = this.amount[iter46];
-        iter46.write(output);
+        iter38 = this.amount[iter38];
+        iter38.write(output);
       }
     }
     output.writeListEnd();
@@ -2248,11 +2106,199 @@ Reward.prototype.write = function(output) {
   if (this.details !== null && this.details !== undefined) {
     output.writeFieldBegin('details', Thrift.Type.LIST, 11);
     output.writeListBegin(Thrift.Type.STRUCT, this.details.length);
-    for (var iter47 in this.details)
+    for (var iter39 in this.details)
     {
-      if (this.details.hasOwnProperty(iter47))
+      if (this.details.hasOwnProperty(iter39))
       {
-        iter47 = this.details[iter47];
+        iter39 = this.details[iter39];
+        iter39.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var RewardInfoRequest = module.exports.RewardInfoRequest = function(args) {
+  this.delAddr = null;
+  this.valAddr = null;
+  if (args) {
+    if (args.delAddr !== undefined && args.delAddr !== null) {
+      this.delAddr = args.delAddr;
+    }
+    if (args.valAddr !== undefined && args.valAddr !== null) {
+      this.valAddr = args.valAddr;
+    }
+  }
+};
+RewardInfoRequest.prototype = {};
+RewardInfoRequest.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.delAddr = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.valAddr = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+RewardInfoRequest.prototype.write = function(output) {
+  output.writeStructBegin('RewardInfoRequest');
+  if (this.delAddr !== null && this.delAddr !== undefined) {
+    output.writeFieldBegin('delAddr', Thrift.Type.STRING, 1);
+    output.writeString(this.delAddr);
+    output.writeFieldEnd();
+  }
+  if (this.valAddr !== null && this.valAddr !== undefined) {
+    output.writeFieldBegin('valAddr', Thrift.Type.STRING, 2);
+    output.writeString(this.valAddr);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var RewardInfoResponse = module.exports.RewardInfoResponse = function(args) {
+  this.delAddr = null;
+  this.withdrawAddr = null;
+  this.totalRetrieveReward = null;
+  this.rewards = null;
+  if (args) {
+    if (args.delAddr !== undefined && args.delAddr !== null) {
+      this.delAddr = args.delAddr;
+    }
+    if (args.withdrawAddr !== undefined && args.withdrawAddr !== null) {
+      this.withdrawAddr = args.withdrawAddr;
+    }
+    if (args.totalRetrieveReward !== undefined && args.totalRetrieveReward !== null) {
+      this.totalRetrieveReward = new ttypes.Coin(args.totalRetrieveReward);
+    }
+    if (args.rewards !== undefined && args.rewards !== null) {
+      this.rewards = Thrift.copyList(args.rewards, [ttypes.Reward]);
+    }
+  }
+};
+RewardInfoResponse.prototype = {};
+RewardInfoResponse.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.delAddr = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.withdrawAddr = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.totalRetrieveReward = new ttypes.Coin();
+        this.totalRetrieveReward.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.LIST) {
+        var _size40 = 0;
+        var _rtmp344;
+        this.rewards = [];
+        var _etype43 = 0;
+        _rtmp344 = input.readListBegin();
+        _etype43 = _rtmp344.etype;
+        _size40 = _rtmp344.size;
+        for (var _i45 = 0; _i45 < _size40; ++_i45)
+        {
+          var elem46 = null;
+          elem46 = new ttypes.Reward();
+          elem46.read(input);
+          this.rewards.push(elem46);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+RewardInfoResponse.prototype.write = function(output) {
+  output.writeStructBegin('RewardInfoResponse');
+  if (this.delAddr !== null && this.delAddr !== undefined) {
+    output.writeFieldBegin('delAddr', Thrift.Type.STRING, 1);
+    output.writeString(this.delAddr);
+    output.writeFieldEnd();
+  }
+  if (this.withdrawAddr !== null && this.withdrawAddr !== undefined) {
+    output.writeFieldBegin('withdrawAddr', Thrift.Type.STRING, 2);
+    output.writeString(this.withdrawAddr);
+    output.writeFieldEnd();
+  }
+  if (this.totalRetrieveReward !== null && this.totalRetrieveReward !== undefined) {
+    output.writeFieldBegin('totalRetrieveReward', Thrift.Type.STRUCT, 3);
+    this.totalRetrieveReward.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.rewards !== null && this.rewards !== undefined) {
+    output.writeFieldBegin('rewards', Thrift.Type.LIST, 4);
+    output.writeListBegin(Thrift.Type.STRUCT, this.rewards.length);
+    for (var iter47 in this.rewards)
+    {
+      if (this.rewards.hasOwnProperty(iter47))
+      {
+        iter47 = this.rewards[iter47];
         iter47.write(output);
       }
     }
