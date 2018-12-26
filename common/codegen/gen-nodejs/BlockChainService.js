@@ -1045,16 +1045,16 @@ BlockChainService_GetTxDetail_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetRewardList_args = function(args) {
+var BlockChainService_GetRewardInfo_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
-      this.req = new model_ttypes.RewardListRequest(args.req);
+      this.req = new model_ttypes.RewardInfoRequest(args.req);
     }
   }
 };
-BlockChainService_GetRewardList_args.prototype = {};
-BlockChainService_GetRewardList_args.prototype.read = function(input) {
+BlockChainService_GetRewardInfo_args.prototype = {};
+BlockChainService_GetRewardInfo_args.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -1069,7 +1069,7 @@ BlockChainService_GetRewardList_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_ttypes.RewardListRequest();
+        this.req = new model_ttypes.RewardInfoRequest();
         this.req.read(input);
       } else {
         input.skip(ftype);
@@ -1087,8 +1087,8 @@ BlockChainService_GetRewardList_args.prototype.read = function(input) {
   return;
 };
 
-BlockChainService_GetRewardList_args.prototype.write = function(output) {
-  output.writeStructBegin('BlockChainService_GetRewardList_args');
+BlockChainService_GetRewardInfo_args.prototype.write = function(output) {
+  output.writeStructBegin('BlockChainService_GetRewardInfo_args');
   if (this.req !== null && this.req !== undefined) {
     output.writeFieldBegin('req', Thrift.Type.STRUCT, 1);
     this.req.write(output);
@@ -1099,7 +1099,7 @@ BlockChainService_GetRewardList_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetRewardList_result = function(args) {
+var BlockChainService_GetRewardInfo_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof model_ttypes.Exception) {
@@ -1108,15 +1108,15 @@ var BlockChainService_GetRewardList_result = function(args) {
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new model_ttypes.RewardListResponse(args.success);
+      this.success = new model_ttypes.RewardInfoResponse(args.success);
     }
     if (args.e !== undefined && args.e !== null) {
       this.e = args.e;
     }
   }
 };
-BlockChainService_GetRewardList_result.prototype = {};
-BlockChainService_GetRewardList_result.prototype.read = function(input) {
+BlockChainService_GetRewardInfo_result.prototype = {};
+BlockChainService_GetRewardInfo_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -1131,7 +1131,7 @@ BlockChainService_GetRewardList_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_ttypes.RewardListResponse();
+        this.success = new model_ttypes.RewardInfoResponse();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -1154,8 +1154,8 @@ BlockChainService_GetRewardList_result.prototype.read = function(input) {
   return;
 };
 
-BlockChainService_GetRewardList_result.prototype.write = function(output) {
-  output.writeStructBegin('BlockChainService_GetRewardList_result');
+BlockChainService_GetRewardInfo_result.prototype.write = function(output) {
+  output.writeStructBegin('BlockChainService_GetRewardInfo_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
     this.success.write(output);
@@ -1596,7 +1596,7 @@ BlockChainServiceClient.prototype.recv_GetTxDetail = function(input,mtype,rseqid
   }
   return callback('GetTxDetail failed: unknown result');
 };
-BlockChainServiceClient.prototype.GetRewardList = function(req, callback) {
+BlockChainServiceClient.prototype.GetRewardInfo = function(req, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
     var _defer = Q.defer();
@@ -1607,27 +1607,27 @@ BlockChainServiceClient.prototype.GetRewardList = function(req, callback) {
         _defer.resolve(result);
       }
     };
-    this.send_GetRewardList(req);
+    this.send_GetRewardInfo(req);
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    this.send_GetRewardList(req);
+    this.send_GetRewardInfo(req);
   }
 };
 
-BlockChainServiceClient.prototype.send_GetRewardList = function(req) {
+BlockChainServiceClient.prototype.send_GetRewardInfo = function(req) {
   var output = new this.pClass(this.output);
-  output.writeMessageBegin('GetRewardList', Thrift.MessageType.CALL, this.seqid());
+  output.writeMessageBegin('GetRewardInfo', Thrift.MessageType.CALL, this.seqid());
   var params = {
     req: req
   };
-  var args = new BlockChainService_GetRewardList_args(params);
+  var args = new BlockChainService_GetRewardInfo_args(params);
   args.write(output);
   output.writeMessageEnd();
   return this.output.flush();
 };
 
-BlockChainServiceClient.prototype.recv_GetRewardList = function(input,mtype,rseqid) {
+BlockChainServiceClient.prototype.recv_GetRewardInfo = function(input,mtype,rseqid) {
   var callback = this._reqs[rseqid] || function() {};
   delete this._reqs[rseqid];
   if (mtype == Thrift.MessageType.EXCEPTION) {
@@ -1636,7 +1636,7 @@ BlockChainServiceClient.prototype.recv_GetRewardList = function(input,mtype,rseq
     input.readMessageEnd();
     return callback(x);
   }
-  var result = new BlockChainService_GetRewardList_result();
+  var result = new BlockChainService_GetRewardInfo_result();
   result.read(input);
   input.readMessageEnd();
 
@@ -1646,7 +1646,7 @@ BlockChainServiceClient.prototype.recv_GetRewardList = function(input,mtype,rseq
   if (null !== result.success) {
     return callback(null, result.success);
   }
-  return callback('GetRewardList failed: unknown result');
+  return callback('GetRewardInfo failed: unknown result');
 };
 var BlockChainServiceProcessor = exports.Processor = function(handler) {
   this._handler = handler;
@@ -1995,40 +1995,40 @@ BlockChainServiceProcessor.prototype.process_GetTxDetail = function(seqid, input
     });
   }
 };
-BlockChainServiceProcessor.prototype.process_GetRewardList = function(seqid, input, output) {
-  var args = new BlockChainService_GetRewardList_args();
+BlockChainServiceProcessor.prototype.process_GetRewardInfo = function(seqid, input, output) {
+  var args = new BlockChainService_GetRewardInfo_args();
   args.read(input);
   input.readMessageEnd();
-  if (this._handler.GetRewardList.length === 1) {
-    Q.fcall(this._handler.GetRewardList.bind(this._handler), args.req)
+  if (this._handler.GetRewardInfo.length === 1) {
+    Q.fcall(this._handler.GetRewardInfo.bind(this._handler), args.req)
       .then(function(result) {
-        var result_obj = new BlockChainService_GetRewardList_result({success: result});
-        output.writeMessageBegin("GetRewardList", Thrift.MessageType.REPLY, seqid);
+        var result_obj = new BlockChainService_GetRewardInfo_result({success: result});
+        output.writeMessageBegin("GetRewardInfo", Thrift.MessageType.REPLY, seqid);
         result_obj.write(output);
         output.writeMessageEnd();
         output.flush();
       }, function (err) {
         var result;
         if (err instanceof model_ttypes.Exception) {
-          result = new BlockChainService_GetRewardList_result(err);
-          output.writeMessageBegin("GetRewardList", Thrift.MessageType.REPLY, seqid);
+          result = new BlockChainService_GetRewardInfo_result(err);
+          output.writeMessageBegin("GetRewardInfo", Thrift.MessageType.REPLY, seqid);
         } else {
           result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-          output.writeMessageBegin("GetRewardList", Thrift.MessageType.EXCEPTION, seqid);
+          output.writeMessageBegin("GetRewardInfo", Thrift.MessageType.EXCEPTION, seqid);
         }
         result.write(output);
         output.writeMessageEnd();
         output.flush();
       });
   } else {
-    this._handler.GetRewardList(args.req, function (err, result) {
+    this._handler.GetRewardInfo(args.req, function (err, result) {
       var result_obj;
       if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
-        result_obj = new BlockChainService_GetRewardList_result((err !== null || typeof err === 'undefined') ? err : {success: result});
-        output.writeMessageBegin("GetRewardList", Thrift.MessageType.REPLY, seqid);
+        result_obj = new BlockChainService_GetRewardInfo_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("GetRewardInfo", Thrift.MessageType.REPLY, seqid);
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("GetRewardList", Thrift.MessageType.EXCEPTION, seqid);
+        output.writeMessageBegin("GetRewardInfo", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();

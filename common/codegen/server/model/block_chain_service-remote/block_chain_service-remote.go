@@ -29,7 +29,7 @@ func Usage() {
 	fmt.Fprintln(os.Stderr, "  BalanceResponse GetBalance(BalanceRequest req)")
 	fmt.Fprintln(os.Stderr, "   GetTxList(TxListRequest req)")
 	fmt.Fprintln(os.Stderr, "  Tx GetTxDetail(TxDetailRequest req)")
-	fmt.Fprintln(os.Stderr, "  RewardListResponse GetRewardList(RewardListRequest req)")
+	fmt.Fprintln(os.Stderr, "  RewardInfoResponse GetRewardInfo(RewardInfoRequest req)")
 	fmt.Fprintln(os.Stderr)
 	os.Exit(0)
 }
@@ -327,9 +327,9 @@ func main() {
 		fmt.Print(client.GetTxDetail(context.Background(), value0))
 		fmt.Print("\n")
 		break
-	case "GetRewardList":
+	case "GetRewardInfo":
 		if flag.NArg()-1 != 1 {
-			fmt.Fprintln(os.Stderr, "GetRewardList requires 1 args")
+			fmt.Fprintln(os.Stderr, "GetRewardInfo requires 1 args")
 			flag.Usage()
 		}
 		arg69 := flag.Arg(1)
@@ -342,14 +342,14 @@ func main() {
 		}
 		factory72 := thrift.NewTSimpleJSONProtocolFactory()
 		jsProt73 := factory72.GetProtocol(mbTrans70)
-		argvalue0 := model.NewRewardListRequest()
+		argvalue0 := model.NewRewardInfoRequest()
 		err74 := argvalue0.Read(jsProt73)
 		if err74 != nil {
 			Usage()
 			return
 		}
 		value0 := argvalue0
-		fmt.Print(client.GetRewardList(context.Background(), value0))
+		fmt.Print(client.GetRewardInfo(context.Background(), value0))
 		fmt.Print("\n")
 		break
 	case "":
