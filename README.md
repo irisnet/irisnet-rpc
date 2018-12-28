@@ -14,8 +14,6 @@ RPC interface for all blockChains
 ```
 thrift -r -out ./codegen/server --gen go ./thrift/service.thrift
 ```
-
-
 - nodejs client
 
 ```

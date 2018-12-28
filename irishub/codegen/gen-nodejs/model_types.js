@@ -1112,3 +1112,220 @@ ValidatorExRateResponse.prototype.write = function(output) {
   return;
 };
 
+var withdrawInfo = module.exports.withdrawInfo = function(args) {
+  this.delAddr = null;
+  this.withdrawAddr = null;
+  if (args) {
+    if (args.delAddr !== undefined && args.delAddr !== null) {
+      this.delAddr = args.delAddr;
+    }
+    if (args.withdrawAddr !== undefined && args.withdrawAddr !== null) {
+      this.withdrawAddr = args.withdrawAddr;
+    }
+  }
+};
+withdrawInfo.prototype = {};
+withdrawInfo.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.delAddr = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.withdrawAddr = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+withdrawInfo.prototype.write = function(output) {
+  output.writeStructBegin('withdrawInfo');
+  if (this.delAddr !== null && this.delAddr !== undefined) {
+    output.writeFieldBegin('delAddr', Thrift.Type.STRING, 1);
+    output.writeString(this.delAddr);
+    output.writeFieldEnd();
+  }
+  if (this.withdrawAddr !== null && this.withdrawAddr !== undefined) {
+    output.writeFieldBegin('withdrawAddr', Thrift.Type.STRING, 2);
+    output.writeString(this.withdrawAddr);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var WithdrawAddrRequest = module.exports.WithdrawAddrRequest = function(args) {
+  this.delAddrs = null;
+  if (args) {
+    if (args.delAddrs !== undefined && args.delAddrs !== null) {
+      this.delAddrs = Thrift.copyList(args.delAddrs, [null]);
+    }
+  }
+};
+WithdrawAddrRequest.prototype = {};
+WithdrawAddrRequest.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.LIST) {
+        var _size8 = 0;
+        var _rtmp312;
+        this.delAddrs = [];
+        var _etype11 = 0;
+        _rtmp312 = input.readListBegin();
+        _etype11 = _rtmp312.etype;
+        _size8 = _rtmp312.size;
+        for (var _i13 = 0; _i13 < _size8; ++_i13)
+        {
+          var elem14 = null;
+          elem14 = input.readString();
+          this.delAddrs.push(elem14);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+WithdrawAddrRequest.prototype.write = function(output) {
+  output.writeStructBegin('WithdrawAddrRequest');
+  if (this.delAddrs !== null && this.delAddrs !== undefined) {
+    output.writeFieldBegin('delAddrs', Thrift.Type.LIST, 1);
+    output.writeListBegin(Thrift.Type.STRING, this.delAddrs.length);
+    for (var iter15 in this.delAddrs)
+    {
+      if (this.delAddrs.hasOwnProperty(iter15))
+      {
+        iter15 = this.delAddrs[iter15];
+        output.writeString(iter15);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var WithdrawAddrResponse = module.exports.WithdrawAddrResponse = function(args) {
+  this.withdrawInfo = null;
+  if (args) {
+    if (args.withdrawInfo !== undefined && args.withdrawInfo !== null) {
+      this.withdrawInfo = Thrift.copyList(args.withdrawInfo, [ttypes.withdrawInfo]);
+    }
+  }
+};
+WithdrawAddrResponse.prototype = {};
+WithdrawAddrResponse.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.LIST) {
+        var _size16 = 0;
+        var _rtmp320;
+        this.withdrawInfo = [];
+        var _etype19 = 0;
+        _rtmp320 = input.readListBegin();
+        _etype19 = _rtmp320.etype;
+        _size16 = _rtmp320.size;
+        for (var _i21 = 0; _i21 < _size16; ++_i21)
+        {
+          var elem22 = null;
+          elem22 = new ttypes.withdrawInfo();
+          elem22.read(input);
+          this.withdrawInfo.push(elem22);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+WithdrawAddrResponse.prototype.write = function(output) {
+  output.writeStructBegin('WithdrawAddrResponse');
+  if (this.withdrawInfo !== null && this.withdrawInfo !== undefined) {
+    output.writeFieldBegin('withdrawInfo', Thrift.Type.LIST, 1);
+    output.writeListBegin(Thrift.Type.STRUCT, this.withdrawInfo.length);
+    for (var iter23 in this.withdrawInfo)
+    {
+      if (this.withdrawInfo.hasOwnProperty(iter23))
+      {
+        iter23 = this.withdrawInfo[iter23];
+        iter23.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
