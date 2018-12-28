@@ -84,3 +84,16 @@ struct ValidatorExRateRequest {
 struct ValidatorExRateResponse {
     1: double tokenSharesRate
 }
+
+struct withdrawInfo{
+    1: string delAddr
+    2: string withdrawAddr
+}
+
+struct WithdrawAddrRequest {
+    1: list<string> delAddrs
+}
+
+struct WithdrawAddrResponse {
+    1: list<withdrawInfo> withdrawInfo
+}

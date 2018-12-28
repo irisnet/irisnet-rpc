@@ -2190,15 +2190,11 @@ RewardInfoRequest.prototype.write = function(output) {
 
 var RewardInfoResponse = module.exports.RewardInfoResponse = function(args) {
   this.delAddr = null;
-  this.withdrawAddr = null;
   this.totalRetrieveReward = null;
   this.rewards = null;
   if (args) {
     if (args.delAddr !== undefined && args.delAddr !== null) {
       this.delAddr = args.delAddr;
-    }
-    if (args.withdrawAddr !== undefined && args.withdrawAddr !== null) {
-      this.withdrawAddr = args.withdrawAddr;
     }
     if (args.totalRetrieveReward !== undefined && args.totalRetrieveReward !== null) {
       this.totalRetrieveReward = new ttypes.Coin(args.totalRetrieveReward);
@@ -2230,13 +2226,6 @@ RewardInfoResponse.prototype.read = function(input) {
       }
       break;
       case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.withdrawAddr = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 3:
       if (ftype == Thrift.Type.STRUCT) {
         this.totalRetrieveReward = new ttypes.Coin();
         this.totalRetrieveReward.read(input);
@@ -2244,7 +2233,7 @@ RewardInfoResponse.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 4:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size40 = 0;
         var _rtmp344;
@@ -2281,18 +2270,13 @@ RewardInfoResponse.prototype.write = function(output) {
     output.writeString(this.delAddr);
     output.writeFieldEnd();
   }
-  if (this.withdrawAddr !== null && this.withdrawAddr !== undefined) {
-    output.writeFieldBegin('withdrawAddr', Thrift.Type.STRING, 2);
-    output.writeString(this.withdrawAddr);
-    output.writeFieldEnd();
-  }
   if (this.totalRetrieveReward !== null && this.totalRetrieveReward !== undefined) {
-    output.writeFieldBegin('totalRetrieveReward', Thrift.Type.STRUCT, 3);
+    output.writeFieldBegin('totalRetrieveReward', Thrift.Type.STRUCT, 2);
     this.totalRetrieveReward.write(output);
     output.writeFieldEnd();
   }
   if (this.rewards !== null && this.rewards !== undefined) {
-    output.writeFieldBegin('rewards', Thrift.Type.LIST, 4);
+    output.writeFieldBegin('rewards', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.STRUCT, this.rewards.length);
     for (var iter47 in this.rewards)
     {

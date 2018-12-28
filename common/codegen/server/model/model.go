@@ -4758,14 +4758,12 @@ func (p *RewardInfoRequest) String() string {
 
 // Attributes:
 //  - DelAddr
-//  - WithdrawAddr
 //  - TotalRetrieveReward
 //  - Rewards
 type RewardInfoResponse struct {
 	DelAddr             string    `thrift:"delAddr,1" db:"delAddr" json:"delAddr"`
-	WithdrawAddr        string    `thrift:"withdrawAddr,2" db:"withdrawAddr" json:"withdrawAddr"`
-	TotalRetrieveReward *Coin     `thrift:"totalRetrieveReward,3" db:"totalRetrieveReward" json:"totalRetrieveReward"`
-	Rewards             []*Reward `thrift:"rewards,4" db:"rewards" json:"rewards"`
+	TotalRetrieveReward *Coin     `thrift:"totalRetrieveReward,2" db:"totalRetrieveReward" json:"totalRetrieveReward"`
+	Rewards             []*Reward `thrift:"rewards,3" db:"rewards" json:"rewards"`
 }
 
 func NewRewardInfoResponse() *RewardInfoResponse {
@@ -4774,10 +4772,6 @@ func NewRewardInfoResponse() *RewardInfoResponse {
 
 func (p *RewardInfoResponse) GetDelAddr() string {
 	return p.DelAddr
-}
-
-func (p *RewardInfoResponse) GetWithdrawAddr() string {
-	return p.WithdrawAddr
 }
 
 var RewardInfoResponse_TotalRetrieveReward_DEFAULT *Coin
@@ -4821,7 +4815,7 @@ func (p *RewardInfoResponse) Read(iprot thrift.TProtocol) error {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.STRUCT {
 				if err := p.ReadField2(iprot); err != nil {
 					return err
 				}
@@ -4831,18 +4825,8 @@ func (p *RewardInfoResponse) Read(iprot thrift.TProtocol) error {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.STRUCT {
-				if err := p.ReadField3(iprot); err != nil {
-					return err
-				}
-			} else {
-				if err := iprot.Skip(fieldTypeId); err != nil {
-					return err
-				}
-			}
-		case 4:
 			if fieldTypeId == thrift.LIST {
-				if err := p.ReadField4(iprot); err != nil {
+				if err := p.ReadField3(iprot); err != nil {
 					return err
 				}
 			} else {
@@ -4875,15 +4859,6 @@ func (p *RewardInfoResponse) ReadField1(iprot thrift.TProtocol) error {
 }
 
 func (p *RewardInfoResponse) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
-		return thrift.PrependError("error reading field 2: ", err)
-	} else {
-		p.WithdrawAddr = v
-	}
-	return nil
-}
-
-func (p *RewardInfoResponse) ReadField3(iprot thrift.TProtocol) error {
 	p.TotalRetrieveReward = &Coin{}
 	if err := p.TotalRetrieveReward.Read(iprot); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.TotalRetrieveReward), err)
@@ -4891,7 +4866,7 @@ func (p *RewardInfoResponse) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *RewardInfoResponse) ReadField4(iprot thrift.TProtocol) error {
+func (p *RewardInfoResponse) ReadField3(iprot thrift.TProtocol) error {
 	_, size, err := iprot.ReadListBegin()
 	if err != nil {
 		return thrift.PrependError("error reading list begin: ", err)
@@ -4925,9 +4900,6 @@ func (p *RewardInfoResponse) Write(oprot thrift.TProtocol) error {
 		if err := p.writeField3(oprot); err != nil {
 			return err
 		}
-		if err := p.writeField4(oprot); err != nil {
-			return err
-		}
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
@@ -4952,34 +4924,21 @@ func (p *RewardInfoResponse) writeField1(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *RewardInfoResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("withdrawAddr", thrift.STRING, 2); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:withdrawAddr: ", p), err)
-	}
-	if err := oprot.WriteString(string(p.WithdrawAddr)); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T.withdrawAddr (2) field write error: ", p), err)
-	}
-	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 2:withdrawAddr: ", p), err)
-	}
-	return err
-}
-
-func (p *RewardInfoResponse) writeField3(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("totalRetrieveReward", thrift.STRUCT, 3); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:totalRetrieveReward: ", p), err)
+	if err := oprot.WriteFieldBegin("totalRetrieveReward", thrift.STRUCT, 2); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:totalRetrieveReward: ", p), err)
 	}
 	if err := p.TotalRetrieveReward.Write(oprot); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.TotalRetrieveReward), err)
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 3:totalRetrieveReward: ", p), err)
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 2:totalRetrieveReward: ", p), err)
 	}
 	return err
 }
 
-func (p *RewardInfoResponse) writeField4(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("rewards", thrift.LIST, 4); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 4:rewards: ", p), err)
+func (p *RewardInfoResponse) writeField3(oprot thrift.TProtocol) (err error) {
+	if err := oprot.WriteFieldBegin("rewards", thrift.LIST, 3); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:rewards: ", p), err)
 	}
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Rewards)); err != nil {
 		return thrift.PrependError("error writing list begin: ", err)
@@ -4993,7 +4952,7 @@ func (p *RewardInfoResponse) writeField4(oprot thrift.TProtocol) (err error) {
 		return thrift.PrependError("error writing list end: ", err)
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 4:rewards: ", p), err)
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 3:rewards: ", p), err)
 	}
 	return err
 }

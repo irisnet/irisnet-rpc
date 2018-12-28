@@ -228,9 +228,8 @@ struct RewardInfoRequest {
 
 struct RewardInfoResponse {
 	1: string delAddr
-	2: string withdrawAddr
-	3: Coin totalRetrieveReward
-	4: list<Reward> rewards
+	2: Coin totalRetrieveReward
+	3: list<Reward> rewards
 }
 
 
