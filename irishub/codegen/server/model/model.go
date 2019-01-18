@@ -167,7 +167,7 @@ func (p *DelegatorUnbondingDelegation) String() string {
 type Delegator struct {
 	Address             string                        `thrift:"address,1" db:"address" json:"address"`
 	ValAddress          string                        `thrift:"valAddress,2" db:"valAddress" json:"valAddress"`
-	Shares              float64                       `thrift:"shares,3" db:"shares" json:"shares"`
+	Shares              string                        `thrift:"shares,3" db:"shares" json:"shares"`
 	BondedTokens        float64                       `thrift:"bondedTokens,4" db:"bondedTokens" json:"bondedTokens"`
 	UnbondingDelegation *DelegatorUnbondingDelegation `thrift:"unbondingDelegation,5" db:"unbondingDelegation" json:"unbondingDelegation"`
 }
@@ -184,7 +184,7 @@ func (p *Delegator) GetValAddress() string {
 	return p.ValAddress
 }
 
-func (p *Delegator) GetShares() float64 {
+func (p *Delegator) GetShares() string {
 	return p.Shares
 }
 
@@ -239,7 +239,7 @@ func (p *Delegator) Read(iprot thrift.TProtocol) error {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.DOUBLE {
+			if fieldTypeId == thrift.STRING {
 				if err := p.ReadField3(iprot); err != nil {
 					return err
 				}
@@ -302,7 +302,7 @@ func (p *Delegator) ReadField2(iprot thrift.TProtocol) error {
 }
 
 func (p *Delegator) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadDouble(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return thrift.PrependError("error reading field 3: ", err)
 	} else {
 		p.Shares = v
@@ -384,10 +384,10 @@ func (p *Delegator) writeField2(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *Delegator) writeField3(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("shares", thrift.DOUBLE, 3); err != nil {
+	if err := oprot.WriteFieldBegin("shares", thrift.STRING, 3); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:shares: ", p), err)
 	}
-	if err := oprot.WriteDouble(float64(p.Shares)); err != nil {
+	if err := oprot.WriteString(string(p.Shares)); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T.shares (3) field write error: ", p), err)
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
