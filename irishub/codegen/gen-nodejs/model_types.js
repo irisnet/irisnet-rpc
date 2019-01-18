@@ -130,8 +130,8 @@ Delegator.prototype.read = function(input) {
       }
       break;
       case 3:
-      if (ftype == Thrift.Type.DOUBLE) {
-        this.shares = input.readDouble();
+      if (ftype == Thrift.Type.STRING) {
+        this.shares = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -173,8 +173,8 @@ Delegator.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.shares !== null && this.shares !== undefined) {
-    output.writeFieldBegin('shares', Thrift.Type.DOUBLE, 3);
-    output.writeDouble(this.shares);
+    output.writeFieldBegin('shares', Thrift.Type.STRING, 3);
+    output.writeString(this.shares);
     output.writeFieldEnd();
   }
   if (this.bondedTokens !== null && this.bondedTokens !== undefined) {

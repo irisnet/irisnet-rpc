@@ -8,7 +8,7 @@ struct DelegatorUnbondingDelegation {
 struct Delegator {
 	1: string address,
 	2: string valAddress,
-	3: double shares,
+	3: string shares,
     4: double bondedTokens,
     5: DelegatorUnbondingDelegation unbondingDelegation
 }
